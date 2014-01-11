@@ -4,13 +4,23 @@ module Algo
 
   class Game
     def initialize
-
+      @output = nil
     end
 
     def start
       "Lets play Algo!!"
     end
   end
+
+  class User
+    attr_accessor :name, :hand
+
+    def initialize(name)
+      @name = name
+      @hand = []
+    end
+  end
+
 
   class Card
     attr_accessor :number, :color, :open
@@ -27,7 +37,7 @@ module Algo
   end
 
 
-  class Deck < Array
+  class Deck
     def initialize
       @deck = []
       12.times{|i|@deck.push Card.new(i,:white)}
@@ -36,6 +46,18 @@ module Algo
 
     def shuffle
       @deck.shuffle!
+    end
+
+    def size
+      @deck.size
+    end
+
+    def deal(num)
+      cards = []
+      num.times do
+        cards.push @deck.pop
+      end
+      cards
     end
 
     def left(color)
