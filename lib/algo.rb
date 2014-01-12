@@ -2,46 +2,76 @@
 
 module Algo
 
-  class Game
-    def initialize
-      @output = nil
+  class Game < Array
+    attr_reader :playing, :deck
+    def initialize(user1,user2)
+      @playing = [User.new(user1),User.new(user2)]
+      @deck = Algo::Deck.new
     end
 
     def start
-      "Lets play Algo!!"
+      output "Lets play Algo!!"
     end
+
+    def show(user)
+      @user = user
+      @opp = @playing.reject{|u| u.name == @user.name }.first
+      output [{ :player => @user.hand },{ :opp => @opp.hand.reverse }]
+    end
+
+    def output(message)
+      message
+    end
+
   end
 
   class User
-    attr_accessor :name, :hand
-
+    attr_accessor :name
+    attr_writer :hand
     def initialize(name)
       @name = name
       @hand = []
     end
+
+    def hand
+      sort
+      cards = []
+      @hand.each do |card|
+        cards.push [card.number,card.color,card.open]
+      end
+      cards
+    end
+
+    def sort
+      @hand.sort! do|a,b|
+        a.index <=> b.index
+      end
+    end
+
   end
 
 
   class Card
-    attr_accessor :number, :color, :open
+    attr_reader :number, :color, :open, :index
     def initialize(number,color)
       @number = number
       @color = color
       @open = false
+      @index = (@color == :white)? @number+0.5 : @number
     end
 
     def reverse
       !@open
     end
-
   end
 
 
   class Deck
+    Num = 12
     def initialize
       @deck = []
-      12.times{|i|@deck.push Card.new(i,:white)}
-      12.times{|i|@deck.push Card.new(i,:black)}
+      Num.times{|i|@deck.push Card.new(i,:white)}
+      Num.times{|i|@deck.push Card.new(i,:black)}
     end
 
     def shuffle
@@ -70,4 +100,5 @@ module Algo
       end
     end
   end
+
 end
