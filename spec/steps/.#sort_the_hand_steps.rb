@@ -1,1 +1,0 @@
-vagrant@rails-dev-box.12977:1389114948
