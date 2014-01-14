@@ -20,8 +20,8 @@ step '新規ゲームをスタートする' do
 end
 
 step "画面に:m1と表示する" do |m1|
-  game = @game.start
-  expect(game).to eq m1
+  @game.start
+  expect(@game.output).to eq m1
 end
 
 step '白と黒が:n1枚ずつ入った:n2枚の山札を作る' do |n1,n2|
@@ -69,5 +69,5 @@ step '分かっている手札のカードの番号と色を表示する' do
   @game = Algo::Game.new(:user1,:user2)
   @player = @game.playing.first
   @opp = @game.playing.last
-  expect(@game.show(@player)).to eq [{ :player => @player.hand },{ :opp => @opp.hand.reverse }]
+  expect(@game.show(@player)).to eq [{ :player => @player.hand },{ :opponent => @opp.hand.reverse }]
 end
